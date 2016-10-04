@@ -12,42 +12,29 @@ namespace CocurrentCollections1
     {
         static void Main(string[] args)
         {
-            var orders = new ConcurrentQueue<string>();
-            //PlaceOrders(orders, "Mark");
-            //PlaceOrders(orders, "Ramdevi");
-            Task task1 = Task.Run(() => PlaceOrders(orders, "Mark"));
-            Task task2 = Task.Run(() => PlaceOrders(orders, "Ramdevi"));
-            Task.WaitAll(task1, task2);
-
-            foreach (string order in orders)            
-                Console.WriteLine("ORDER: " + order);
-
-            Console.WriteLine("_______________________________________________________");
-            Parallel.ForEach(orders, ProcessOrders);
-            
-            Console.ReadLine();
-        }
-
-        private static void ProcessOrders(string order)
-        {
-            Console.WriteLine("Inside the parallel foreach : {0}", order);
-        }
-
-        //static object _lockObj = new object();
-
-        private static void PlaceOrders(ConcurrentQueue<string> orders, string customerName)
-        {
-            for (int i = 0; i < 5; i++)
+            var stock = new Dictionary<string, int>()
             {
-                Thread.Sleep(1);
-                string orderName = string.Format("{0} wants t-shirt {1}", customerName, i + 1);
+                {"jDays", 4},
+                {"technlogyhour", 3}
+            };
+            Console.WriteLine(string.Format("No. of shirts in stock = {0}", stock.Count));
 
-                //lock (_lockObj)
-                //{
-                //    orders.Enqueue(orderName);
-                //} 
-                orders.Enqueue(orderName);
+            stock.Add("pluralsight", 5);
+            stock["buddhistgeeks"] = 5;
+
+            stock["pluralsight"] = 7; // up from 6 - we just bought one
+
+            Console.WriteLine(string.Format("\r\nstock[pluralsight] = {0}", stock["pluralsight"]));
+
+            stock.Remove("jDays");
+
+            Console.WriteLine("\r\nEnumerating:");
+            foreach (var keyValPair in stock)
+            {
+                Console.WriteLine("{0}: {1}", keyValPair.Key, keyValPair.Value);
             }
+
+            Console.ReadKey();
         }
     }
 }
