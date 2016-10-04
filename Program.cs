@@ -12,20 +12,26 @@ namespace CocurrentCollections1
     {
         static void Main(string[] args)
         {
-            IDictionary<string, int> stock = new ConcurrentDictionary<string, int>();
-            stock.Add("jDays",4);
-            stock.Add("technlogyhour",3);
+            var stock = new ConcurrentDictionary<string, int>();
+            stock.GetOrAdd("jDays",4);
+            stock.GetOrAdd("technlogyhour", 3);
+
+            var result = stock.GetOrAdd("technlogyhour", 3);
+            Console.WriteLine("The result is " + result);
             
             Console.WriteLine(string.Format("No. of shirts in stock = {0}", stock.Count));
 
-            stock.Add("pluralsight", 5);
+            stock.GetOrAdd("pluralsight", 5);
             stock["buddhistgeeks"] = 5;
 
-            stock["pluralsight"] = 7; // up from 6 - we just bought one
+            //stock["pluralsight"] = 7; // up from 6 - we just bought one            
+            // stock["pluralsight"]++;
+            int psStock = stock.AddOrUpdate("pluralsight", 1, (key, oldValue) => oldValue + 1);
+            Console.WriteLine("New value is " + psStock);
 
             Console.WriteLine(string.Format("\r\nstock[pluralsight] = {0}", stock["pluralsight"]));
 
-            stock.Remove("jDays");
+            //stock.Remove("jDays");
 
             Console.WriteLine("\r\nEnumerating:");
             foreach (var keyValPair in stock)
