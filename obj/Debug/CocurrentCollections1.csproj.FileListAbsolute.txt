@@ -1,0 +1,6 @@
+C:\dev\CocurrentCollections1\bin\Debug\CocurrentCollections1.exe.config
+C:\dev\CocurrentCollections1\bin\Debug\CocurrentCollections1.exe
+C:\dev\CocurrentCollections1\bin\Debug\CocurrentCollections1.pdb
+C:\dev\CocurrentCollections1\obj\Debug\CocurrentCollections1.csprojResolveAssemblyReference.cache
+C:\dev\CocurrentCollections1\obj\Debug\CocurrentCollections1.exe
+C:\dev\CocurrentCollections1\obj\Debug\CocurrentCollections1.pdb
