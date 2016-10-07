@@ -10,34 +10,22 @@ namespace CocurrentCollections1
 {
     class Program
     {
+        public static readonly List<string> AllShirtNames =
+            new List<string> {"technologhyhour", "Code school", "jDays", "buddhisgeeks", "iGeek" };
+
         static void Main(string[] args)
         {
-            var stock = new ConcurrentDictionary<string, int>();
-            stock.GetOrAdd("jDays",4);
-            stock.GetOrAdd("technlogyhour", 3);
+            StockController controller = new StockController();
+            TimeSpan workDay = new TimeSpan(0, 0, 02);
 
-            var result = stock.GetOrAdd("technlogyhour", 3);
-            Console.WriteLine("The result is " + result);
-            
-            Console.WriteLine(string.Format("No. of shirts in stock = {0}", stock.Count));
+            Task t1 = Task.Run(() => new SalesPerson("Sahil").Work(controller, workDay));
+            Task t2 = Task.Run(() => new SalesPerson("Peter").Work(controller, workDay));
+            Task t3 = Task.Run(() => new SalesPerson("Juliette").Work(controller, workDay));
+            Task t4 = Task.Run(() => new SalesPerson("Xavier").Work(controller, workDay));
 
-            stock.GetOrAdd("pluralsight", 5);
-            stock["buddhistgeeks"] = 5;
+            Task.WaitAll(t1, t2, t3, t4);
+            controller.DisplayStatus();
 
-            //stock["pluralsight"] = 7; // up from 6 - we just bought one            
-            // stock["pluralsight"]++;
-            int psStock = stock.AddOrUpdate("pluralsight", 1, (key, oldValue) => oldValue + 1);
-            Console.WriteLine("New value is " + psStock);
-
-            Console.WriteLine(string.Format("\r\nstock[pluralsight] = {0}", stock["pluralsight"]));
-
-            //stock.Remove("jDays");
-
-            Console.WriteLine("\r\nEnumerating:");
-            foreach (var keyValPair in stock)
-            {
-                Console.WriteLine("{0}: {1}", keyValPair.Key, keyValPair.Value);
-            }
 
             Console.ReadKey();
         }
